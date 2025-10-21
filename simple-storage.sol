@@ -6,7 +6,7 @@ contract SimpleStorage{
     uint public favnumber=5;
     bool favbool=false;
     string favstring="Sreeram";
-    address favaddress=0xDFDa8340978B38d93114FAE615144e895A75ebb2;
+    address favaddress = 0xCEaaa7a684f5FBBDF41B865e2945142340D82029;
 
     function store(uint number) public 
     {
