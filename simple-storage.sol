@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.30;
+pragma solidity ^0.8.17;
 
 contract SimpleStorage{
     uint public favnumber=5;
     bool favbool=false;
     string favstring="Sreeram";
     address favaddress = 0xCEaaa7a684f5FBBDF41B865e2945142340D82029;
+
+    function retrieve() public view returns(uint){
+        return favnumber;
+    }
 
     function store(uint number) public 
     {

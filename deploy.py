@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from solcx import compile_standard,install_solc
 from web3 import Web3
-install_solc("0.8.30")
+install_solc("0.8.17")
 
 load_dotenv()
 MYADDRESS = Web3.to_checksum_address(os.getenv("MYADDRESS"))
@@ -23,7 +23,7 @@ compiledsol = compile_standard(
                 "*":{"*": ["abi","metadata","evm.bytecode","evm.sourceMap"]}
             }
         }
-    },solc_version="0.8.30"
+    },solc_version="0.8.17"
 )
 
 #move the compiled code into a new file 'compiledcode.json'
@@ -64,7 +64,24 @@ transaction = SimpleStorage.constructor().build_transaction({
 signedtransaction=w3.eth.account.sign_transaction(transaction,private_key=SECRETCODE)
 
 #Sending a Transaction
-transactionhash=w3.eth.send_raw_transaction(signedtransaction.raw_transaction)
-tx_receipt = w3.eth.wait_for_transaction_receipt(transactionhash)
+transactionhash=w3.eth.send_raw_transaction(signedtransaction.raw_transaction)  
+transactionreceipt=w3.eth.wait_for_transaction_receipt(transactionhash)
 
-transactionreceipt=w3.eth.wait_for_transaction_receipt(transaction_hash=transactionhash)
+
+#Fetching Smart Contract Address
+simplestorage=w3.eth.contract(address=transactionreceipt.contractAddress, abi=abi)
+
+#Call- Simulates making a call and getting return value [No State Change]
+#Transact- Actually makes a state change
+
+#for a call function
+print(simplestorage.functions.retrieve().call())
+
+
+#for a transact function
+storetransaction=simplestorage.functions.store(15).build_transaction(       #call function by building a transaction
+    {"chainId":chainid, "from": MYADDRESS, "nonce":nonce+1}
+)
+signedstoretransaction=w3.eth.account.sign_transaction(storetransaction,private_key=SECRETCODE)  #sign that transaction
+storetransactionhash=w3.eth.send_raw_transaction(signedstoretransaction.raw_transaction)    #generate transcation hash
+storetransactionreceipt=w3.eth.wait_for_transaction_receipt(storetransactionhash)   #fetch the transaction receipt
