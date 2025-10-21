@@ -42,7 +42,7 @@ chainid=1337
 
 #creating the contract
 SimpleStorage=w3.eth.contract(abi=abi,bytecode=bytecode)
-print("Contract Created Successfully!!")
+print("Contract Created")
 
 #fetching nonce(latest transaction) of our wallet
 nonce=w3.eth.get_transaction_count(MYADDRESS)
@@ -66,7 +66,7 @@ signedtransaction=w3.eth.account.sign_transaction(transaction,private_key=SECRET
 #Sending a Transaction
 transactionhash=w3.eth.send_raw_transaction(signedtransaction.raw_transaction)  
 transactionreceipt=w3.eth.wait_for_transaction_receipt(transactionhash)
-
+print("Contract Deployed")
 
 #Fetching Smart Contract Address
 simplestorage=w3.eth.contract(address=transactionreceipt.contractAddress, abi=abi)
