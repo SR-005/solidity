@@ -1,3 +1,4 @@
+import json
 from solcx import compile_standard,install_solc
 install_solc("0.8.30")
 
@@ -5,7 +6,7 @@ install_solc("0.8.30")
 with open("./simple-storage.sol","r") as file:
     simplestoragefile=file.read()
 
-
+#complie the smart contract - default lines
 compiledsol = compile_standard(
     {
         "language":"Solidity",
@@ -18,4 +19,14 @@ compiledsol = compile_standard(
     },solc_version="0.8.30"
 )
 
-print(compiledsol)
+#move the compiled code into a new file 'compiledcode.json'
+with open("compiledcode.json","w") as file:
+    json.dump(compiledsol,file)
+
+#fetching bytecode from the compiled Smart Contract
+bytecode=compiledsol["contracts"]["simple-storage.sol"]["SimpleStorage"]["evm"]["bytecode"]["object"]
+
+#get abi from the compiled Smart Contract
+abi=compiledsol["contracts"]["simple-storage.sol"]["SimpleStorage"]["abi"]
+
+print("ABI: ",abi)
