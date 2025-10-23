@@ -10,7 +10,7 @@ MYADDRESS = Web3.to_checksum_address(os.getenv("MYADDRESS"))
 SECRETCODE = os.getenv("SECRETKEY")
 
 #Read the Smart Contract
-with open("./simple-storage.sol","r") as file:
+with open("./simplestorage-sm/simple-storage.sol","r") as file:
     simplestoragefile=file.read()
 
 #complie the smart contract - default lines
@@ -27,7 +27,7 @@ compiledsol = compile_standard(
 )
 
 #move the compiled code into a new file 'compiledcode.json'
-with open("compiledcode.json","w") as file:
+with open("./simplestorage-sm/compiledcode.json","w") as file:
     json.dump(compiledsol,file)
 
 #fetching bytecode from the compiled Smart Contract
