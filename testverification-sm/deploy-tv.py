@@ -70,7 +70,28 @@ def depoly_contract():
 
 '''depoly_contract()'''     #function call for deploy contract
 
-address="0xC6ca2af3B65E30497F9b6B785b6fb3E5327141F9"
+smaddress="0xC6ca2af3B65E30497F9b6B785b6fb3E5327141F9"
 #Fetching Smart Contract Address
-testverificationcontract=w3.eth.contract(address=address, abi=abi)
-print(testverificationcontract.functions.isVerified(MYADDRESS).call())
+testverificationcontract=w3.eth.contract(address=smaddress, abi=abi)
+print(testverificationcontract.functions.isVerified("0xCEaaa7a684f5FBBDF41B865e2945142340D82029").call())
+'''
+balance = w3.eth.get_balance(MYADDRESS)
+print("Balance:", w3.from_wei(balance, "ether"), "DEV")
+
+#fetching nonce(latest transaction) of our wallet
+nonce=w3.eth.get_transaction_count(MYADDRESS,"pending")
+
+
+verifyaddress_transaction=testverificationcontract.functions.setVerified(MYADDRESS).build_transaction(       #call function by building a transaction
+    {"chainId":chainid,
+     "from": MYADDRESS,
+     "nonce":nonce,
+     "gas": 7000000,
+     "gasPrice": w3.to_wei("20", "gwei")}
+)
+signedverifyaddress_transaction=w3.eth.account.sign_transaction(verifyaddress_transaction,private_key=SECRETCODE)  #sign that transaction
+verifyaddress_transactionhash=w3.eth.send_raw_transaction(signedverifyaddress_transaction.raw_transaction)    #generate transcation hash
+print("Transcation hash:", verifyaddress_transactionhash.hex())
+verifyaddress_transactionreceipt=w3.eth.wait_for_transaction_receipt(verifyaddress_transactionhash)   #fetch the transaction receipt
+
+print(testverificationcontract.functions.isVerified(MYADDRESS).call())'''
