@@ -40,32 +40,37 @@ abi=compiledsol["contracts"]["test-verification.sol"]["TestVerification"]["abi"]
 w3 = Web3(Web3.HTTPProvider("https://rpc.api.moonbase.moonbeam.network"))
 chainid=1287
 
-#creating the contract
-TestVerification=w3.eth.contract(abi=abi,bytecode=bytecode)
-print("Contract Created")
+def depoly_contract():
+    #creating the contract
+    TestVerification=w3.eth.contract(abi=abi,bytecode=bytecode)
+    print("Contract Created")
 
-balance = w3.eth.get_balance(MYADDRESS)
-print("Balance:", w3.from_wei(balance, "ether"), "DEV")
+    balance = w3.eth.get_balance(MYADDRESS)
+    print("Balance:", w3.from_wei(balance, "ether"), "DEV")
 
-#fetching nonce(latest transaction) of our wallet
-nonce=w3.eth.get_transaction_count(MYADDRESS,"pending")
+    #fetching nonce(latest transaction) of our wallet
+    nonce=w3.eth.get_transaction_count(MYADDRESS,"pending")
 
-transaction = TestVerification.constructor().build_transaction({
-    "chainId": chainid,
-    "from": MYADDRESS,
-    "nonce": nonce,
-    "gas": 7000000,
-    "gasPrice": w3.to_wei("20", "gwei")
-})
+    transaction = TestVerification.constructor().build_transaction({
+        "chainId": chainid,
+        "from": MYADDRESS,
+        "nonce": nonce,
+        "gas": 7000000,
+        "gasPrice": w3.to_wei("20", "gwei")
+    })
 
-#Signing a transaction
-signedtransaction=w3.eth.account.sign_transaction(transaction,private_key=SECRETCODE)
+    #Signing a transaction
+    signedtransaction=w3.eth.account.sign_transaction(transaction,private_key=SECRETCODE)
 
-#Sending a Transaction
-transactionhash=w3.eth.send_raw_transaction(signedtransaction.raw_transaction)
-print(transactionhash)
-transactionreceipt=w3.eth.wait_for_transaction_receipt(transactionhash)
-print("Contract Deployed")
+    #Sending a Transaction
+    transactionhash=w3.eth.send_raw_transaction(signedtransaction.raw_transaction)
+    print(transactionhash)
+    transactionreceipt=w3.eth.wait_for_transaction_receipt(transactionhash)
+    print("Contract Deployed")
 
+'''depoly_contract()'''     #function call for deploy contract
+
+address="0xC6ca2af3B65E30497F9b6B785b6fb3E5327141F9"
 #Fetching Smart Contract Address
-print(transactionreceipt.contractAddress)
+testverificationcontract=w3.eth.contract(address=address, abi=abi)
+print(testverificationcontract.functions.isVerified(MYADDRESS).call())
