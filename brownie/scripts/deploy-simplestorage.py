@@ -19,7 +19,6 @@ def deploysimplestorage():
     value=simplestorage.retrieve()
     print("New Value: ",value)
 
-
 def main():
     print("hello sm")
     deploysimplestorage()
