@@ -1,1 +1,7 @@
 dotenv: .env
+
+networks:
+  moonbeam-test:
+    host: https://rpc.api.moonbase.moonbeam.network
+    chainid: 1287
+    explorer: https://moonbase-blockscout.moonbeam.network/

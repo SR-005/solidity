@@ -2,10 +2,10 @@ from brownie import accounts, SimpleStorage, network
 import os,time
 
 def deploysimplestorage():
-    account=accounts[0]   #for default brownie ganache account
+    '''account=accounts[0]'''   #for default brownie ganache account
 
     '''account=accounts.load("metamask")'''     #one of the method for loading external account --but need to enter passwrd each time 
-    '''account=accounts.add(os.getenv("METAMASK_SECRETKEY"))'''   #fetching the account from .env variable
+    account=accounts.add(os.getenv("METAMASK_SECRETKEY"))  #fetching the account from .env variable
 
     print(account)
     simplestorage=SimpleStorage.deploy({"from":account})  
