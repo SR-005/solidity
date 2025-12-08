@@ -8,7 +8,7 @@ contract SimpleNFT is ERC721
     uint public tokencounter;
     constructor () public ERC721 ("Badge1","NFTBadges")
     {
-        tokencounter=0;
+        tokencounter=0;         //count of total tokens minted
     }
 
     function CreateCollectible() public returns (uint)
