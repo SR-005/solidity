@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
-contract SimpleNFT is ERC721
+contract SimpleNFT is ERC721URIStorage, Ownable
 {
     uint public tokencounter;
     constructor () public ERC721 ("Badge1","NFTBadges")
@@ -11,11 +13,12 @@ contract SimpleNFT is ERC721
         tokencounter=0;         //count of total tokens minted
     }
 
-    function CreateCollectible() public returns (uint)
+    function CreateCollectible(string memory tokenuri) public returns (uint)
     {
         uint newtokenid=tokencounter;
         _safeMint(msg.sender, newtokenid);
-        tokencounter=tokencounter+1;
+        _setTokenURI(newtokenid, tokenuri);
+        tokencounter=tokencounter+1; 
         return newtokenid;
     }
 }
