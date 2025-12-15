@@ -15,7 +15,9 @@ contract SimpleNFT is ERC721URIStorage, Ownable
 
     function CreateCollectible(string memory tokenuri) public returns (uint)
     {
+        
         uint newtokenid=tokencounter;
+        string memory tokenuri="ipfs://Qmd9MCGtdVz2miNumBHDbvj8bigSgTwnr4SbyH6DNnpWdt?filename=0-PUG.json";
         _safeMint(msg.sender, newtokenid);
         _setTokenURI(newtokenid, tokenuri);
         tokencounter=tokencounter+1; 
