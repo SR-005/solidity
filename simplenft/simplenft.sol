@@ -34,12 +34,14 @@ contract SimpleNFT is ERC721URIStorage, Ownable
         tokencounter=0;         //count of total tokens minted
     }
 
-    function CreateCollectible(address to, string memory tokenuri) public onlyOwner returns (uint)
+    mapping(uint256 => string) public badgeLevel;
+    function CreateCollectible(address to, string memory tokenuri, string memory level) public onlyOwner returns (uint)
     {
         
         uint newtokenid=tokencounter;
         _safeMint(to, newtokenid);
         _setTokenURI(newtokenid, tokenuri);
+        badgeLevel[newtokenid] = level;         //to associate value of the badge to the badge id
         tokencounter=tokencounter+1; 
         return newtokenid;
     }
